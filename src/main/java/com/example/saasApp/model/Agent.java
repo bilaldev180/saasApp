@@ -1,4 +1,5 @@
 package com.example.saasApp.model;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,35 +12,17 @@ public class Agent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "parent_id")
-    private long pId;
+    private Long id;
     @Column (name = "name")
     private String name;
+    @Column (name = "country_code")
+    private long countryCode;
+    private long phone ;
     private String email;
 
-    //    public long getpId() {
-//        return pId;
-//    }
-//
-//    public void setpId(long pId) {
-//        this.pId = pId;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
+    @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL)
+    @JsonManagedReference // Manages the serialization of the `customers` list
+    private List<Customer> customers;
 
-    //    @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL)
-//    private List <Customer> customers;
+
 }
