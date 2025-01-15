@@ -37,7 +37,8 @@ public class Mapper {
         customerDto.setEmail(customer.getEmail());
         customerDto.setCountryCode(customer.getCountryCode());
         customerDto.setPhone(customer.getPhone());
-//        customerDto.setAgentId(customer.getAgent());
+        customerDto.setStatus(customer.getStatus());
+        customerDto.setAgentId(customer.getAgent().getId());
 
         return customerDto;
     }

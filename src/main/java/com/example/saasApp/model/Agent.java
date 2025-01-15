@@ -11,15 +11,15 @@ import java.util.List;
 public class Agent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (name = "parent_id")
+    @Column (name = "parent_id" )
     private Long id;
-    @Column (name = "name")
+    @Column (name = "name" , nullable = false)
     private String name;
     @Column (name = "country_code")
     private long countryCode;
     private long phone ;
+    @Column(name = "email", nullable = false )
     private String email;
-
     @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL)
     @JsonManagedReference // Manages the serialization of the `customers` list
     private List<Customer> customers;

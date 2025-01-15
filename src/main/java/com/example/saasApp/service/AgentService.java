@@ -9,6 +9,9 @@ import com.example.saasApp.repo.AgentRepo;
 import com.example.saasApp.repo.CustomerRepo;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class AgentService {
 
@@ -29,7 +32,7 @@ public class AgentService {
         agent.setCountryCode(agentDto.getCountryCode());
         agent.setPhone(agentDto.getPhone());
         agent.setEmail(agentDto.getEmail());
-        agent.getCustomers();
+//        agent.getCustomers();
         return agentRepo.save(agent);
     }
 
@@ -42,7 +45,9 @@ public class AgentService {
     customer.setId(customerDto.getId());
     customer.setName(customerDto.getName());
     customer.setEmail(customerDto.getEmail());
+    customer.setCountryCode(customerDto.getCountryCode());
     customer.setPhone(customerDto.getPhone());
+    customer.setStatus(customerDto.getStatus());
 
     return customerRepo.save(customer);
     }
@@ -53,16 +58,30 @@ public class AgentService {
         return mapper.mapAgentToDto(agent);
     }
 
-//    public Customer createCustomer(long agentId, Customer customer) {
-//        Agent agent = agentRepo.findById(agentId)
-//                .orElseThrow(() -> new RuntimeException("Agent not found"));
-//        customer.setAgent(agent); // Set the Agent object
-//        return customerRepo.save(customer); // Save the customer
-//    }
 
+    public List<AgentDto> getAllAgents() {
+        return agentRepo.findAll()
+                .stream()
+                .map(mapper::mapAgentToDto)
+                .collect(Collectors.toList());
+    }
 
+    public Agent upateAgent(AgentDto agentDto) {
+        long id = agentDto.getId();
+        String name = agentDto.getName();
+        long countryCode = agentDto.getCountryCode();
+        long phone = agentDto.getPhone();
+        String email = agentDto.getEmail();
 
-//    public void AgentRepo createAgent(Agent agent) {
-//        agentRepo.save(agent);
-//    }
+        Agent existingAgent = agentRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("id not found " + id));
+
+        existingAgent.setId(id);
+        existingAgent.setName(name);
+        existingAgent.setEmail(email);
+        existingAgent.setCountryCode(countryCode);
+        existingAgent.setPhone(phone);
+        agentRepo.save(existingAgent);
+        return existingAgent;
+    }
 }

@@ -4,11 +4,10 @@ import com.example.saasApp.dto.agentDto.AgentDto;
 import com.example.saasApp.dto.customerDto.CustomerDto;
 import com.example.saasApp.model.Agent;
 import com.example.saasApp.model.Customer;
-import com.example.saasApp.repo.AgentRepo;
 import com.example.saasApp.service.AgentService;
-import jakarta.persistence.GeneratedValue;
-import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping ("saas/agent")
@@ -33,5 +32,15 @@ public class AgentController {
     @GetMapping ("/{agentId}")
     public AgentDto getAgent (@PathVariable Long agentId){
         return agentService.getAgent(agentId);
+    }
+
+    @GetMapping ("/")
+    public List<AgentDto> getAllAgents(){
+        return agentService.getAllAgents();
+    }
+
+    @PatchMapping ("/update")
+    public Agent update (@RequestBody AgentDto agentDto){
+        return agentService.upateAgent(agentDto);
     }
 }
