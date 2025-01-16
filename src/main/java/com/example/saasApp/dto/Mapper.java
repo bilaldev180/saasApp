@@ -1,9 +1,11 @@
 package com.example.saasApp.dto;
 
-import com.example.saasApp.dto.agentDto.AgentDto;
-import com.example.saasApp.dto.customerDto.CustomerDto;
+import com.example.saasApp.dto.agentDto.AgentResponse;
+import com.example.saasApp.dto.customerDto.CustomerResponse;
+import com.example.saasApp.dto.kycLevelResponseDto.KycResponse;
 import com.example.saasApp.model.Agent;
 import com.example.saasApp.model.Customer;
+import com.example.saasApp.model.KycLevel;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,35 +13,44 @@ import java.util.stream.Collectors;
 
 @Component
 public class Mapper {
-    public AgentDto mapAgentToDto(Agent agent) {
-        AgentDto agentDto = new AgentDto();
-        agentDto.setId(agent.getId());
-        agentDto.setName(agent.getName());
-        agentDto.setCountryCode(agent.getCountryCode());
-        agentDto.setPhone(agent.getPhone());
-        agentDto.setEmail(agent.getEmail());
+    public AgentResponse mapAgentToResponse(Agent agent) {
+        AgentResponse agentResponse = new AgentResponse();
+        agentResponse.setId(agent.getId());
+        agentResponse.setName(agent.getName());
+        agentResponse.setCountryCode(agent.getCountryCode());
+        agentResponse.setPhone(agent.getPhone());
+        agentResponse.setEmail(agent.getEmail());
 
         // Map customers if they exist
-        List<CustomerDto> customerDtos = agent.getCustomers() != null
+        List<CustomerResponse> customerResp = agent.getCustomers() != null
                 ? agent.getCustomers().stream()
-                .map(this::mapCustomerToDto)
+                .map(this::mapCustomerToResponse)
                 .collect(Collectors.toList())
                 : null;
-        agentDto.setCustomers(customerDtos);
+        agentResponse.setCustomers(customerResp);
 
-        return agentDto;
+        return agentResponse;
     }
 
-    public CustomerDto mapCustomerToDto (Customer customer){
-        CustomerDto customerDto = new CustomerDto();
-        customerDto.setId(customer.getId());
-        customerDto.setName(customer.getName());
-        customerDto.setEmail(customer.getEmail());
-        customerDto.setCountryCode(customer.getCountryCode());
-        customerDto.setPhone(customer.getPhone());
-        customerDto.setStatus(customer.getStatus());
-        customerDto.setAgentId(customer.getAgent().getId());
+    public CustomerResponse mapCustomerToResponse(Customer customer){
+        CustomerResponse customerResponse = new CustomerResponse();
+        customerResponse.setId(customer.getId());
+        customerResponse.setName(customer.getName());
+        customerResponse.setEmail(customer.getEmail());
+        customerResponse.setCountryCode(customer.getCountryCode());
+        customerResponse.setPhone(customer.getPhone());
+        customerResponse.setStatus(customer.getStatus());
+        customerResponse.setAgentId(customer.getAgent().getId());
 
-        return customerDto;
+        return customerResponse;
+    }
+
+    public KycResponse mapKycLevelToResponse(KycLevel kycLevel){
+        KycResponse response = new KycResponse();
+        response.setId(kycLevel.getId());
+        response.setKycLevelName(kycLevel.getKycLevelName().toString());
+        response.setSequence(kycLevel.getSequence());
+        response.setCreatedAt(kycLevel.getCreatedAt());
+        return response;
     }
 }

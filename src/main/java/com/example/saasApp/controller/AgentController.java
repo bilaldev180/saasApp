@@ -1,7 +1,7 @@
 package com.example.saasApp.controller;
 
-import com.example.saasApp.dto.agentDto.AgentDto;
-import com.example.saasApp.dto.customerDto.CustomerDto;
+import com.example.saasApp.dto.agentDto.AgentResponse;
+import com.example.saasApp.dto.customerDto.CustomerResponse;
 import com.example.saasApp.model.Agent;
 import com.example.saasApp.model.Customer;
 import com.example.saasApp.service.AgentService;
@@ -20,27 +20,27 @@ public class AgentController {
     }
 
     @PostMapping ("/create")
-    public Agent create (@RequestBody AgentDto agentDto){
-        return agentService.createAgent(agentDto);
+    public Agent create (@RequestBody AgentResponse agentResponse){
+        return agentService.createAgent(agentResponse);
     }
 
     @PostMapping ("/create_customer")
-    public Customer createCustomer (@RequestBody CustomerDto customerDto){
-        return agentService.createCustomer(customerDto);
+    public Customer createCustomer (@RequestBody CustomerResponse customerResponse){
+        return agentService.createCustomer(customerResponse);
     }
 
     @GetMapping ("/{agentId}")
-    public AgentDto getAgent (@PathVariable Long agentId){
+    public AgentResponse getAgent (@PathVariable Long agentId){
         return agentService.getAgent(agentId);
     }
 
     @GetMapping ("/")
-    public List<AgentDto> getAllAgents(){
+    public List<AgentResponse> getAllAgents(){
         return agentService.getAllAgents();
     }
 
     @PatchMapping ("/update")
-    public Agent update (@RequestBody AgentDto agentDto){
-        return agentService.upateAgent(agentDto);
+    public Agent update (@RequestBody AgentResponse agentResponse){
+        return agentService.upateAgent(agentResponse);
     }
 }

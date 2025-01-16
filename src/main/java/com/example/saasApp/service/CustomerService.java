@@ -1,7 +1,7 @@
 package com.example.saasApp.service;
 
 import com.example.saasApp.dto.Mapper;
-import com.example.saasApp.dto.customerDto.CustomerDto;
+import com.example.saasApp.dto.customerDto.CustomerResponse;
 import com.example.saasApp.model.Agent;
 import com.example.saasApp.model.Customer;
 import com.example.saasApp.repo.AgentRepo;
@@ -24,30 +24,30 @@ public class CustomerService {
         this.mapper = mapper;
     }
 
-    public Customer create(CustomerDto customerDto) {
-       Agent agent = agentRepo.findById(customerDto.getAgentId())
-               .orElseThrow(() -> new RuntimeException("agent not found with id " + customerDto.getAgentId()));
+    public Customer create(CustomerResponse customerResponse) {
+       Agent agent = agentRepo.findById(customerResponse.getAgentId())
+               .orElseThrow(() -> new RuntimeException("agent not found with id " + customerResponse.getAgentId()));
         Customer customer = new Customer();
 
-        customer.setId(customerDto.getId());
-        customer.setName(customerDto.getName());
-        customer.setCountryCode(customerDto.getCountryCode());
-        customer.setPhone(customerDto.getPhone());
-        customer.setEmail(customerDto.getEmail());
-        customer.setStatus(customerDto.getStatus());
+        customer.setId(customerResponse.getId());
+        customer.setName(customerResponse.getName());
+        customer.setCountryCode(customerResponse.getCountryCode());
+        customer.setPhone(customerResponse.getPhone());
+        customer.setEmail(customerResponse.getEmail());
+        customer.setStatus(customerResponse.getStatus());
         customer.setAgent(agent);
 
         return customerRepo.save(customer);
     }
 
-    public Customer update(CustomerDto customerDto) {
-        long id = customerDto.getId();
-        String name = customerDto.getName();
-        String email = customerDto.getEmail();
-        long countryCode = customerDto.getCountryCode();
-        long phone = customerDto.getPhone();
-        Boolean status = customerDto.getStatus();
-        long agentId = customerDto.getAgentId();
+    public Customer update(CustomerResponse customerResponse) {
+        long id = customerResponse.getId();
+        String name = customerResponse.getName();
+        String email = customerResponse.getEmail();
+        long countryCode = customerResponse.getCountryCode();
+        long phone = customerResponse.getPhone();
+        Boolean status = customerResponse.getStatus();
+        long agentId = customerResponse.getAgentId();
 
         Customer existingCustomer = customerRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("customer not found with id " + id ));
@@ -62,11 +62,11 @@ public class CustomerService {
         return existingCustomer;
     }
 
-    public List<CustomerDto> getCustomers() {
+    public List<CustomerResponse> getCustomers() {
 
         return customerRepo.findAll()
                 .stream()
-                .map(mapper::mapCustomerToDto)
+                .map(mapper::mapCustomerToResponse)
                 .collect(Collectors.toList());
     }
 }
