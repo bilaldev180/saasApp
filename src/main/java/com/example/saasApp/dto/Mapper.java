@@ -3,11 +3,12 @@ package com.example.saasApp.dto;
 import com.example.saasApp.dto.agentDto.AgentResponse;
 import com.example.saasApp.dto.customerDto.CustomerResponse;
 import com.example.saasApp.dto.kycLevelResponseDto.KycResponse;
+import com.example.saasApp.dto.kycRequirementDTO.KycRequirementResponse;
 import com.example.saasApp.model.Agent;
 import com.example.saasApp.model.Customer;
 import com.example.saasApp.model.KycLevel;
+import com.example.saasApp.model.KycRequirement;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,5 +53,15 @@ public class Mapper {
         response.setSequence(kycLevel.getSequence());
         response.setCreatedAt(kycLevel.getCreatedAt());
         return response;
+    }
+
+    public KycRequirementResponse mapKycRequirementToResponse (KycRequirement kycRequirement){
+        KycRequirementResponse responseDto = new KycRequirementResponse();
+        responseDto.setId(kycRequirement.getId());
+        responseDto.setKycLevelID(kycRequirement.getKycLevelID());
+        responseDto.setSequence(kycRequirement.getSequence());
+        responseDto.setFieldName(kycRequirement.getFieldName());
+        responseDto.setValidityPeriod(kycRequirement.getValidityPeriod());
+        return responseDto;
     }
 }
