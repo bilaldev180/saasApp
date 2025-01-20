@@ -3,7 +3,9 @@ package com.example.saasApp.service;
 import com.example.saasApp.dto.Mapper;
 import com.example.saasApp.dto.kycRequirementDTO.KycRequirementRequest;
 import com.example.saasApp.dto.kycRequirementDTO.KycRequirementResponse;
+import com.example.saasApp.model.KycLevel;
 import com.example.saasApp.model.KycRequirement;
+import com.example.saasApp.repo.KycLevelRepo;
 import com.example.saasApp.repo.KycReqRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,14 +21,18 @@ public class KycRequirementService {
 
     private final KycReqRepo kycReqRepo;
     private final Mapper mapper;
+    private final KycLevelRepo kycLevelRepo;
 
-    public KycRequirementResponse create(KycRequirementRequest kycRequirementRequest) {
+    public KycRequirementResponse create(KycRequirementResponse kycRequirementResponse) {
+        KycLevel level = kycLevelRepo.findById(kycRequirementResponse.getKycLevelId())
+                .orElseThrow(() -> new RuntimeException("KYC level not found"));
         KycRequirement kycRequirement = new KycRequirement();
-        kycRequirement.setKycLevelID(kycRequirementRequest.getKycLevelID());
+//        kycRequirement.setKycLevelID(kycRequirementRequest.getKycLevelID());
 //        kycRequirement.setId(kycRequirementRequest.getId());
-        kycRequirement.setSequence(kycRequirementRequest.getSequence());
-        kycRequirement.setFieldName(kycRequirementRequest.getFieldName());
-        kycRequirement.setValidityPeriod(kycRequirementRequest.getValidityPeriod());
+        kycRequirement.setKycLevel(level);
+        kycRequirement.setSequence(kycRequirementResponse.getSequence());
+        kycRequirement.setFieldName(kycRequirementResponse.getFieldName());
+        kycRequirement.setValidityPeriod(kycRequirementResponse.getValidityPeriod());
 
         kycReqRepo.save(kycRequirement);
         return mapper.mapKycRequirementToResponse(kycRequirement);
@@ -45,14 +51,14 @@ public class KycRequirementService {
     }
     public KycRequirement update (@RequestBody KycRequirementRequest kycRequirementRequest){
         Integer id = kycRequirementRequest.getId();
-        Integer kycLevelId = kycRequirementRequest.getKycLevelID();
+//        Integer kycLevelId = kycRequirementRequest.getKycLevelID();
         Integer sequence = kycRequirementRequest.getSequence();
         String fieldName = kycRequirementRequest.getFieldName();
         Integer validityPeriod = kycRequirementRequest.getValidityPeriod();
 
         KycRequirement existingKycRequirement = kycReqRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("id not found " + id));
-        existingKycRequirement.setKycLevelID(kycLevelId);
+//        existingKycRequirement.setKycLevelID(kycLevelId);
         existingKycRequirement.setSequence(sequence);
         existingKycRequirement.setFieldName(fieldName);
         existingKycRequirement.setValidityPeriod(validityPeriod);

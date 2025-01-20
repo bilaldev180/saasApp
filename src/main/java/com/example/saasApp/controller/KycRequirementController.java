@@ -17,8 +17,8 @@ public class KycRequirementController {
     private final KycRequirementService service;
 
     @PostMapping("/create")
-    public KycRequirementResponse create (@RequestBody KycRequirementRequest kycRequirementRequest){
-        return service.create(kycRequirementRequest);
+    public KycRequirementResponse create (@RequestBody KycRequirementResponse kycRequirementResponse){
+        return service.create(kycRequirementResponse);
     }
 
     @GetMapping ("/")

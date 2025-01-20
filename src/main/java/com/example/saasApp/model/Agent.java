@@ -1,4 +1,5 @@
 package com.example.saasApp.model;
+import com.example.saasApp.enums.UserType;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -20,6 +21,8 @@ public class Agent {
     private long phone ;
     @Column(name = "email", nullable = false )
     private String email;
+    @Enumerated(EnumType.STRING)
+    private UserType userType = UserType.AGENT;
     @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL)
     @JsonManagedReference // Manages the serialization of the `customers` list
     private List<Customer> customers;

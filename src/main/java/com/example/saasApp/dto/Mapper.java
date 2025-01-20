@@ -58,7 +58,7 @@ public class Mapper {
     public KycRequirementResponse mapKycRequirementToResponse (KycRequirement kycRequirement){
         KycRequirementResponse responseDto = new KycRequirementResponse();
         responseDto.setId(kycRequirement.getId());
-        responseDto.setKycLevelID(kycRequirement.getKycLevelID());
+        responseDto.setKycLevelId(kycRequirement.getKycLevel().getId());
         responseDto.setSequence(kycRequirement.getSequence());
         responseDto.setFieldName(kycRequirement.getFieldName());
         responseDto.setValidityPeriod(kycRequirement.getValidityPeriod());

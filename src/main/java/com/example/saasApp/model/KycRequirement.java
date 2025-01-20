@@ -10,8 +10,9 @@ public class KycRequirement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name= "kyc_level_id")
-    private Integer kycLevelID;
+    @ManyToOne
+    @JoinColumn(name= "kyc_level_id", nullable = false)
+    private KycLevel kycLevel;
     @Column (name="sequence")
     private Integer Sequence;
     @Column (name="field_name")
