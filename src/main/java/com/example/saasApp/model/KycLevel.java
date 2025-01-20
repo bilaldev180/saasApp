@@ -17,7 +17,6 @@ public class KycLevel {
     @Column(name = "kyc_level_name")
     @Enumerated(EnumType.STRING)
     private KycLevelName kycLevelName;
-
     @Column(name = "Sequence")
     private Integer sequence;
 

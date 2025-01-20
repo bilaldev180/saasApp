@@ -43,4 +43,10 @@ public class AgentController {
     public Agent update (@RequestBody AgentResponse agentResponse){
         return agentService.upateAgent(agentResponse);
     }
+
+    @DeleteMapping ("/{id}")
+    public String delete (@PathVariable Long id){
+        return agentService.delete(id);
+    }
+
 }

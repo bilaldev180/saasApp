@@ -84,4 +84,9 @@ public class AgentService {
         agentRepo.save(existingAgent);
         return existingAgent;
     }
+
+    public String delete(Long id) {
+         agentRepo.deleteById(id);
+         return "deleted Successfully agent with id " + id;
+    }
 }

@@ -7,6 +7,7 @@ import com.example.saasApp.model.KycRequirement;
 import com.example.saasApp.repo.KycReqRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
@@ -37,6 +38,11 @@ public class KycRequirementService {
                 .map(mapper::mapKycRequirementToResponse)
                 .collect(Collectors.toList());
     }
+
+    public KycRequirementResponse getById (@PathVariable Integer id){
+        KycRequirement reqById = kycReqRepo.findById(id).orElseThrow(() -> new RuntimeException("not found"));
+        return mapper.mapKycRequirementToResponse(reqById);
+    }
     public KycRequirement update (@RequestBody KycRequirementRequest kycRequirementRequest){
         Integer id = kycRequirementRequest.getId();
         Integer kycLevelId = kycRequirementRequest.getKycLevelID();
@@ -53,5 +59,10 @@ public class KycRequirementService {
 
         kycReqRepo.save(existingKycRequirement);
         return existingKycRequirement;
+    }
+
+    public String delete(Integer id) {
+        kycReqRepo.deleteById(id);
+        return "deleted Successfully";
     }
 }

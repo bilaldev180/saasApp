@@ -69,4 +69,9 @@ public class CustomerService {
                 .map(mapper::mapCustomerToResponse)
                 .collect(Collectors.toList());
     }
+
+    public String delete(Long id) {
+        customerRepo.deleteById(id);
+        return "customer deleted successsfully with id " + id;
+    }
 }

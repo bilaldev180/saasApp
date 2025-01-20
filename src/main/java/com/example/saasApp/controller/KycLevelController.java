@@ -39,6 +39,6 @@ public class KycLevelController {
     @DeleteMapping ("/{id}")
     public String deleteKycLevelById (@PathVariable int id ){
         kycLevelService.deleteKycLevel(id);
-        return "kyc level deleted Successfully";
+        return "kyc level deleted Successfully" + id;
     }
 }

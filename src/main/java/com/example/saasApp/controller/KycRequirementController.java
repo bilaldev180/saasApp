@@ -4,9 +4,7 @@ import com.example.saasApp.dto.kycRequirementDTO.KycRequirementRequest;
 import com.example.saasApp.dto.kycRequirementDTO.KycRequirementResponse;
 import com.example.saasApp.model.KycRequirement;
 import com.example.saasApp.service.KycRequirementService;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
-import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +13,7 @@ import java.util.List;
 @RequestMapping("/saas/kyc_req")
 @AllArgsConstructor
 public class KycRequirementController {
+
     private final KycRequirementService service;
 
     @PostMapping("/create")
@@ -26,10 +25,19 @@ public class KycRequirementController {
     public List<KycRequirementResponse> get (){
         return service.getAll();
     }
+    @GetMapping ("/{id}")
+    public KycRequirementResponse getById (@PathVariable Integer id ){
+        return service.getById(id);
+    }
 
     @PatchMapping ("/update")
     public KycRequirement update (@RequestBody KycRequirementRequest kycRequirementRequest){
         return service.update(kycRequirementRequest);
+    }
+
+    @DeleteMapping ("/{id}")
+    public String delete (@PathVariable Integer id ){
+        return service.delete(id);
     }
 
 }
