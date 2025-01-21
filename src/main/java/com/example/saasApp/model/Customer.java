@@ -14,7 +14,7 @@ public class Customer {
 //    @Getter
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private long id ;
+    private long customerId ;
     @Column (name = "customer_name")
     private String name;
     @Column (name = "email")
@@ -33,5 +33,7 @@ public class Customer {
     @OneToOne
     @JoinColumn(name = "kyc_level")
     private KycLevel kycLevel;
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL) // Reference to KycRecord
+    private KycRecord kycRecord;
 
 }

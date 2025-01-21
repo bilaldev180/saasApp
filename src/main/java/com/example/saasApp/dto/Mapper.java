@@ -35,7 +35,7 @@ public class Mapper {
 
     public CustomerResponse mapCustomerToResponse(Customer customer){
         CustomerResponse customerResponse = new CustomerResponse();
-        customerResponse.setId(customer.getId());
+        customerResponse.setId(customer.getCustomerId());
         customerResponse.setName(customer.getName());
         customerResponse.setEmail(customer.getEmail());
         customerResponse.setCountryCode(customer.getCountryCode());
@@ -48,7 +48,7 @@ public class Mapper {
 
     public KycResponse mapKycLevelToResponse(KycLevel kycLevel){
         KycResponse response = new KycResponse();
-        response.setId(kycLevel.getId());
+        response.setId(kycLevel.getKycLevelId());
         response.setKycLevelName(kycLevel.getKycLevelName().toString());
         response.setSequence(kycLevel.getSequence());
         response.setCreatedAt(kycLevel.getCreatedAt());
@@ -58,7 +58,7 @@ public class Mapper {
     public KycRequirementResponse mapKycRequirementToResponse (KycRequirement kycRequirement){
         KycRequirementResponse responseDto = new KycRequirementResponse();
         responseDto.setId(kycRequirement.getId());
-        responseDto.setKycLevelId(kycRequirement.getKycLevel().getId());
+        responseDto.setKycLevelId(kycRequirement.getKycLevel().getKycLevelId());
         responseDto.setSequence(kycRequirement.getSequence());
         responseDto.setFieldName(kycRequirement.getFieldName());
         responseDto.setValidityPeriod(kycRequirement.getValidityPeriod());

@@ -14,7 +14,7 @@ import java.util.List;
 public class KycLevel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer kycLevelId;
     @Column(name = "kyc_level_name")
     @Enumerated(EnumType.STRING)
     private KycLevelName kycLevelName;
@@ -30,4 +30,6 @@ public class KycLevel {
 
     @OneToMany (mappedBy = "kycLevel")
     private List<KycRequirement> requirements;
+    @OneToOne(mappedBy = "kycLevel", cascade = CascadeType.ALL) // Reference to KycRecord
+    private KycRecord kycRecord;
 }

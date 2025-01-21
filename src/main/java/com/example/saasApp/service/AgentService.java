@@ -42,7 +42,7 @@ public class AgentService {
 
     Customer customer = new Customer();
     customer.setAgent(agent);
-    customer.setId(customerResponse.getId());
+    customer.setCustomerId(customerResponse.getId());
     customer.setName(customerResponse.getName());
     customer.setEmail(customerResponse.getEmail());
     customer.setCountryCode(customerResponse.getCountryCode());

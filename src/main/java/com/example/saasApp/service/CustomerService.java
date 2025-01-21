@@ -29,7 +29,7 @@ public class CustomerService {
                .orElseThrow(() -> new RuntimeException("agent not found with id " + customerResponse.getAgentId()));
         Customer customer = new Customer();
 
-        customer.setId(customerResponse.getId());
+        customer.setCustomerId(customerResponse.getId());
         customer.setName(customerResponse.getName());
         customer.setCountryCode(customerResponse.getCountryCode());
         customer.setPhone(customerResponse.getPhone());
@@ -51,7 +51,7 @@ public class CustomerService {
 
         Customer existingCustomer = customerRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("customer not found with id " + id ));
-        existingCustomer.setId(id);
+        existingCustomer.setCustomerId(id);
         existingCustomer.setName(name);
         existingCustomer.setEmail(email);
         existingCustomer.setCountryCode(countryCode);
