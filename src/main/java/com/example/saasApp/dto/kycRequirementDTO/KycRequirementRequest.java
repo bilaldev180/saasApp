@@ -5,9 +5,10 @@ import lombok.Data;
 @Data
 public class KycRequirementRequest {
     private Integer id;
-    private Integer kycLevelID;
-    private Integer Sequence;
+    private Integer kycLevelId;
+//    private Integer Sequence;
     private String fieldName;
-    //    private kycFieldType fieldType;
+    private Boolean isMandatory;
+    private String fieldType;
     private Integer validityPeriod;
 }

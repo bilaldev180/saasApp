@@ -8,28 +8,26 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity(name="kyc_level")
-@Table(name="kyc_level")
+@Entity
+@Table(name = "kyc_level")
 @Data
 public class KycLevel {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer kycLevelId;
-    @Column(name = "kyc_level_name")
+
+    @Column(name = "kyc_level_name", nullable = false)
     @Enumerated(EnumType.STRING)
     private KycLevelName kycLevelName;
-    @Column(name = "Sequence")
-    private Integer sequence;
-    @CreationTimestamp
-    @Column(name = "Created_At", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-    @OneToOne
-    @JoinColumn(name = "kyc_level")
-    private Customer customer;
-//    @OneToMany (mappedBy = "kycLevel", cascade = CascadeType.ALL, orphanRemoval = false)
 
-    @OneToMany (mappedBy = "kycLevel")
+    @Column(name = "sequence", nullable = false)
+    private Integer sequence; // Order of KYC levels
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "kycLevel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<KycRequirement> requirements;
-    @OneToOne(mappedBy = "kycLevel", cascade = CascadeType.ALL) // Reference to KycRecord
-    private KycRecord kycRecord;
 }

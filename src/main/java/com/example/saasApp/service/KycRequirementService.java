@@ -9,8 +9,6 @@ import com.example.saasApp.repo.KycLevelRepo;
 import com.example.saasApp.repo.KycReqRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,21 +21,30 @@ public class KycRequirementService {
     private final Mapper mapper;
     private final KycLevelRepo kycLevelRepo;
 
-    public KycRequirementResponse create(KycRequirementResponse kycRequirementResponse) {
-        KycLevel level = kycLevelRepo.findById(kycRequirementResponse.getKycLevelId())
+    /**
+     * Creates a new KYC Requirement and associates it with a KYC Level.
+     */
+    public KycRequirementResponse create(KycRequirementRequest kycRequirementRequest) {
+        KycLevel level = kycLevelRepo.findById(kycRequirementRequest.getKycLevelId())
                 .orElseThrow(() -> new RuntimeException("KYC level not found"));
+
         KycRequirement kycRequirement = new KycRequirement();
-//        kycRequirement.setKycLevelID(kycRequirementRequest.getKycLevelID());
-//        kycRequirement.setId(kycRequirementRequest.getId());
         kycRequirement.setKycLevel(level);
-        kycRequirement.setSequence(kycRequirementResponse.getSequence());
-        kycRequirement.setFieldName(kycRequirementResponse.getFieldName());
-        kycRequirement.setValidityPeriod(kycRequirementResponse.getValidityPeriod());
+        kycRequirement.setFieldName(kycRequirementRequest.getFieldName());
+        kycRequirement.setValidityPeriod(kycRequirementRequest.getValidityPeriod());
+        kycRequirement.setMandatory(kycRequirementRequest.getIsMandatory());
+        kycRequirement.setFieldType(kycRequirementRequest.getFieldType());
 
         kycReqRepo.save(kycRequirement);
+
         return mapper.mapKycRequirementToResponse(kycRequirement);
     }
 
+    /**
+     * Retrieves all KYC Requirements.
+     *
+     * @return List of KYC Requirement response DTOs.
+     */
     public List<KycRequirementResponse> getAll() {
         return kycReqRepo.findAll()
                 .stream()
@@ -45,30 +52,49 @@ public class KycRequirementService {
                 .collect(Collectors.toList());
     }
 
-    public KycRequirementResponse getById (@PathVariable Integer id){
-        KycRequirement reqById = kycReqRepo.findById(id).orElseThrow(() -> new RuntimeException("not found"));
-        return mapper.mapKycRequirementToResponse(reqById);
+    /**
+     * Retrieves a KYC Requirement by its ID.
+     *
+     * @param id The ID of the KYC Requirement.
+     * @return The KYC Requirement as a response DTO.
+     */
+    public KycRequirementResponse getById(Integer id) {
+        KycRequirement kycRequirement = kycReqRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("KYC Requirement not found with ID: " + id));
+        return mapper.mapKycRequirementToResponse(kycRequirement);
     }
-    public KycRequirement update (@RequestBody KycRequirementRequest kycRequirementRequest){
-        Integer id = kycRequirementRequest.getId();
-//        Integer kycLevelId = kycRequirementRequest.getKycLevelID();
-        Integer sequence = kycRequirementRequest.getSequence();
-        String fieldName = kycRequirementRequest.getFieldName();
-        Integer validityPeriod = kycRequirementRequest.getValidityPeriod();
 
-        KycRequirement existingKycRequirement = kycReqRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("id not found " + id));
-//        existingKycRequirement.setKycLevelID(kycLevelId);
-        existingKycRequirement.setSequence(sequence);
-        existingKycRequirement.setFieldName(fieldName);
-        existingKycRequirement.setValidityPeriod(validityPeriod);
+    /**
+     * Updates an existing KYC Requirement.
+     *
+     * @param kycRequirementRequest Request containing updated KYC Requirement details.
+     * @return The updated KYC Requirement as a response DTO.
+     */
+    public KycRequirementResponse update(KycRequirementRequest kycRequirementRequest) {
+        KycRequirement existingKycRequirement = kycReqRepo.findById(kycRequirementRequest.getId())
+                .orElseThrow(() -> new RuntimeException("KYC Requirement not found with ID: " + kycRequirementRequest.getId()));
+
+        existingKycRequirement.setFieldName(kycRequirementRequest.getFieldName());
+        existingKycRequirement.setValidityPeriod(kycRequirementRequest.getValidityPeriod());
+        existingKycRequirement.setMandatory(kycRequirementRequest.getIsMandatory());
+        existingKycRequirement.setFieldType(kycRequirementRequest.getFieldType());
 
         kycReqRepo.save(existingKycRequirement);
-        return existingKycRequirement;
+
+        return mapper.mapKycRequirementToResponse(existingKycRequirement);
     }
 
+    /**
+     * Deletes a KYC Requirement by its ID.
+     *
+     * @param id The ID of the KYC Requirement to delete.
+     * @return A success message upon deletion.
+     */
     public String delete(Integer id) {
+        if (!kycReqRepo.existsById(id)) {
+            throw new RuntimeException("KYC Requirement not found with ID: " + id);
+        }
         kycReqRepo.deleteById(id);
-        return "deleted Successfully";
+        return "KYC Requirement deleted successfully.";
     }
 }

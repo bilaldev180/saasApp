@@ -42,6 +42,7 @@ public class Mapper {
         customerResponse.setPhone(customer.getPhone());
         customerResponse.setStatus(customer.getStatus());
         customerResponse.setAgentId(customer.getAgent().getId());
+        customerResponse.setAddress(customer.getAddress());
 
         return customerResponse;
     }
@@ -59,7 +60,7 @@ public class Mapper {
         KycRequirementResponse responseDto = new KycRequirementResponse();
         responseDto.setId(kycRequirement.getId());
         responseDto.setKycLevelId(kycRequirement.getKycLevel().getKycLevelId());
-        responseDto.setSequence(kycRequirement.getSequence());
+//        responseDto.setSequence(kycRequirement.getSequence());
         responseDto.setFieldName(kycRequirement.getFieldName());
         responseDto.setValidityPeriod(kycRequirement.getValidityPeriod());
         return responseDto;

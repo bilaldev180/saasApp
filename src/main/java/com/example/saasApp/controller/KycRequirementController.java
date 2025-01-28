@@ -2,42 +2,78 @@ package com.example.saasApp.controller;
 
 import com.example.saasApp.dto.kycRequirementDTO.KycRequirementRequest;
 import com.example.saasApp.dto.kycRequirementDTO.KycRequirementResponse;
-import com.example.saasApp.model.KycRequirement;
 import com.example.saasApp.service.KycRequirementService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/saas/kyc_req")
-@AllArgsConstructor
+@RequestMapping("/api/kyc-requirements")
+@RequiredArgsConstructor
 public class KycRequirementController {
 
-    private final KycRequirementService service;
+    private final KycRequirementService kycRequirementService;
 
-    @PostMapping("/create")
-    public KycRequirementResponse create (@RequestBody KycRequirementResponse kycRequirementResponse){
-        return service.create(kycRequirementResponse);
+    /**
+     * Create a new KYC Requirement and assign it to a KYC Level.
+     *
+     * @param kycRequirementRequest Request payload for creating a KYC Requirement.
+     * @return The created KYC Requirement as a response DTO.
+     */
+    @PostMapping ("/create")
+    public ResponseEntity<KycRequirementResponse> createRequirement(
+            @RequestBody KycRequirementRequest kycRequirementRequest) {
+        KycRequirementResponse response = kycRequirementService.create(kycRequirementRequest);
+        return ResponseEntity.ok(response);
     }
 
+    /**
+     * Retrieve all KYC Requirements.
+     *
+     * @return A list of KYC Requirement response DTOs.
+     */
     @GetMapping ("/")
-    public List<KycRequirementResponse> get (){
-        return service.getAll();
-    }
-    @GetMapping ("/{id}")
-    public KycRequirementResponse getById (@PathVariable Integer id ){
-        return service.getById(id);
+    public ResponseEntity<List<KycRequirementResponse>> getAllRequirements() {
+        List<KycRequirementResponse> responseList = kycRequirementService.getAll();
+        return ResponseEntity.ok(responseList);
     }
 
-    @PatchMapping ("/update")
-    public KycRequirement update (@RequestBody KycRequirementRequest kycRequirementRequest){
-        return service.update(kycRequirementRequest);
+    /**
+     * Retrieve a KYC Requirement by its ID.
+     *
+     * @param id The ID of the KYC Requirement.
+     * @return The KYC Requirement as a response DTO.
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<KycRequirementResponse> getRequirementById(@PathVariable Integer id) {
+        KycRequirementResponse response = kycRequirementService.getById(id);
+        return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping ("/{id}")
-    public String delete (@PathVariable Integer id ){
-        return service.delete(id);
+    /**
+     * Update an existing KYC Requirement.
+     *
+     * @param kycRequirementRequest Request payload containing updated details.
+     * @return The updated KYC Requirement as a response DTO.
+     */
+    @PutMapping ("/update")
+    public ResponseEntity<KycRequirementResponse> updateRequirement(
+            @RequestBody KycRequirementRequest kycRequirementRequest) {
+        KycRequirementResponse response = kycRequirementService.update(kycRequirementRequest);
+        return ResponseEntity.ok(response);
     }
 
+    /**
+     * Delete a KYC Requirement by its ID.
+     *
+     * @param id The ID of the KYC Requirement to delete.
+     * @return A success message upon deletion.
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteRequirement(@PathVariable Integer id) {
+        String message = kycRequirementService.delete(id);
+        return ResponseEntity.ok(message);
+    }
 }

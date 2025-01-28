@@ -34,6 +34,7 @@ public class CustomerService {
         customer.setCountryCode(customerResponse.getCountryCode());
         customer.setPhone(customerResponse.getPhone());
         customer.setEmail(customerResponse.getEmail());
+        customer.setAddress(customerResponse.getAddress());
         customer.setStatus(customerResponse.getStatus());
         customer.setAgent(agent);
 
@@ -44,6 +45,7 @@ public class CustomerService {
         long id = customerResponse.getId();
         String name = customerResponse.getName();
         String email = customerResponse.getEmail();
+        String address = customerResponse.getAddress();
         long countryCode = customerResponse.getCountryCode();
         long phone = customerResponse.getPhone();
         Boolean status = customerResponse.getStatus();
@@ -54,6 +56,7 @@ public class CustomerService {
         existingCustomer.setCustomerId(id);
         existingCustomer.setName(name);
         existingCustomer.setEmail(email);
+        existingCustomer.setAddress(address);
         existingCustomer.setCountryCode(countryCode);
         existingCustomer.setPhone(phone);
         existingCustomer.setStatus(status);

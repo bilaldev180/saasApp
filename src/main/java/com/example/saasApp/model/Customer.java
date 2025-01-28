@@ -6,34 +6,42 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@AllArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 public class Customer {
-//    @Getter
+
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private long customerId ;
-    @Column (name = "customer_name")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long customerId;
+
+    @Column(name = "customer_name", nullable = false)
     private String name;
-    @Column (name = "email")
+
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
-    @Column (name = "country_code")
+
+    @Column(name = "country_code", nullable = false)
     private long countryCode;
-    @Column (name = "phone")
+
+    @Column(name = "phone", nullable = false)
     private long phone;
-    private Boolean status;
+
+    @Column(name = "address")
+    private String address;
+
+    private Boolean status = true; // Defaults to active status
+
     @Enumerated(EnumType.STRING)
-    private UserType userType= UserType.CUSTOMER;
+    private UserType userType = UserType.CUSTOMER;
+
     @ManyToOne
     @JoinColumn(name = "agent_id", nullable = false)
-    @JsonBackReference // Prevents recursive serialization of the `Agent`
+    @JsonBackReference
     private Agent agent;
-    @OneToOne
-    @JoinColumn(name = "kyc_level")
-    private KycLevel kycLevel;
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL) // Reference to KycRecord
-    private KycRecord kycRecord;
 
+    @ManyToOne
+    @JoinColumn(name = "kyc_level_id", nullable = true) // Optional for customers with no KYC
+    private KycLevel kycLevel;
 }

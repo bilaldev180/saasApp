@@ -8,6 +8,7 @@ public class KycRequirementResponse {
     private Integer kycLevelId;
     private Integer Sequence;
     private String fieldName;
-    //    private kycFieldType fieldType;
+    private Boolean isMandatory;
+    private String fieldType;
     private Integer validityPeriod;
 }
